@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 import { cn } from '@/utils';
+import { Button } from '@/components/ui/Button';
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -13,6 +15,8 @@ const navItems = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const { data: session, status } = useSession();
+  const user = session?.user;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
@@ -49,13 +53,28 @@ export function Navbar() {
         </ul>
 
         <div className="ml-auto flex items-center gap-2">
-          {/* Auth placeholder - NextAuth session will go here */}
-          <Link
-            href="/api/auth/signin"
-            className="rounded-lg px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
-          >
-            Sign in
-          </Link>
+          {status === 'loading' ? (
+            <div className="h-8 w-16 animate-pulse rounded bg-slate-200" />
+          ) : user ? (
+            <>
+              <span className="text-sm text-slate-600">
+                {user.name ?? user.email}
+              </span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => signOut({ callbackUrl: '/' })}
+              >
+                Sign out
+              </Button>
+            </>
+          ) : (
+            <Link href="/login">
+              <Button variant="outline" size="sm">
+                Sign in
+              </Button>
+            </Link>
+          )}
         </div>
       </nav>
     </header>

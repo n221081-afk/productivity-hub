@@ -49,6 +49,7 @@ src/
    ```bash
    cp .env.example .env
    # Edit .env with your PostgreSQL URL and NextAuth secrets
+   # Generate NEXTAUTH_SECRET: openssl rand -base64 32
    ```
 
 3. **Initialize database**
@@ -62,6 +63,13 @@ src/
    ```
 
 5. Open [http://localhost:3000](http://localhost:3000)
+
+## Authentication (NextAuth)
+
+- **Email/Password** login via Credentials provider
+- **Register** at `/register`, **Sign in** at `/login`
+- **Protected routes**: `/tasks`, `/finance`, `/notes` require sign-in
+- **Session**: JWT-based, 30-day expiry
 
 ## Scripts
 
