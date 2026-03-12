@@ -8,7 +8,7 @@ export default withAuth(
 
     // Redirect authenticated users away from auth pages
     if (token && (pathname === '/login' || pathname === '/register')) {
-      return NextResponse.redirect(new URL('/', req.url));
+      return NextResponse.redirect(new URL('/dashboard', req.url));
     }
 
     return NextResponse.next();
@@ -21,8 +21,8 @@ export default withAuth(
 
         if (isAuthPage) return true;
 
-        const isProtected = ['/tasks', '/finance', '/notes'].some((p) =>
-          pathname.startsWith(p)
+        const isProtected = ['/dashboard', '/tasks', '/finance', '/notes'].some(
+          (p) => pathname.startsWith(p)
         );
         if (isProtected && !token) return false;
 
@@ -36,5 +36,12 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ['/tasks/:path*', '/finance/:path*', '/notes/:path*', '/login', '/register'],
+  matcher: [
+    '/dashboard/:path*',
+    '/tasks/:path*',
+    '/finance/:path*',
+    '/notes/:path*',
+    '/login',
+    '/register',
+  ],
 };
