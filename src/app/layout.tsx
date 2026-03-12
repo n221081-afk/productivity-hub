@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Layout } from '@/components/layout';
 import { SessionProvider } from '@/components/providers/SessionProvider';
 import '@/app/globals.css';
 
@@ -16,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen antialiased">
-        <SessionProvider>
-          <Layout>{children}</Layout>
-        </SessionProvider>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
